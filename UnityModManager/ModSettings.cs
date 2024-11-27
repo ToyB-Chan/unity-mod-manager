@@ -21,15 +21,12 @@ namespace UnityModManagerNet
                 return Path.Combine(modEntry.Path, "Settings.xml");
             }
 
-            public static void Save<T>(T data, ModEntry modEntry) where T : ModSettings, new()
+            public static void Save(ModSettings data, ModEntry modEntry)
             {
-                Save<T>(data, modEntry, null);
+                Save(data, modEntry, null);
             }
 
-            /// <summary>
-            /// [0.20.0]
-            /// </summary>
-            public static void Save<T>(T data, ModEntry modEntry, XmlAttributeOverrides attributes) where T : ModSettings, new()
+            public static void Save(ModSettings data, ModEntry modEntry, XmlAttributeOverrides attributes)
             {
                 var filepath = data.GetPath(modEntry);
                 try
@@ -95,6 +92,23 @@ namespace UnityModManagerNet
                 }
 
                 return t;
+            }
+
+            /* Kept for backwards compatibility */
+
+            [Obsolete("This method is deprecated and may be removed in a future release. Use the non-generic version instead.")]
+            public static void Save<T>(T data, ModEntry modEntry) where T : ModSettings, new()
+            {
+                Save((ModSettings)data, modEntry, null);
+            }
+
+            /// <summary>
+            /// [0.20.0]
+            /// </summary>
+            [Obsolete("This method is deprecated and may be removed in a future release. Use the non-generic version instead.")]
+            public static void Save<T>(T data, ModEntry modEntry, XmlAttributeOverrides attributes) where T : ModSettings, new()
+            {
+                Save((ModSettings)data, modEntry, attributes);
             }
         }
     }
